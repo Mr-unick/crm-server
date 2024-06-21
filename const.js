@@ -1,0 +1,82 @@
+let data = [
+  {
+    status: "Active",
+    priority: "High",
+    comments: [
+      {
+        comment: "Initial contact made.",
+        user: "60d0fe4f5311236168a109ca",
+        dateTimeAdded: "2024-06-01T10:00:00Z",
+      },
+      {
+        comment: "Sent follow-up email.",
+        user: "60d0fe4f5311236168a109cb",
+        dateTimeAdded: "2024-06-02T14:30:00Z",
+      },
+    ],
+    stage: "Qualified",
+    collaborators: ["John Doe", "Jane Smith"],
+    leadReminder: "2024-06-10T09:00:00Z",
+    address: "123 Main St, Springfield, USA",
+    source: "Ads",
+    adSource: {
+      adCampaignName: "Summer Sale Campaign",
+    },
+    phone: "555-1234",
+    secondaryNumber: "555-5678",
+    branchCode: "BR001",
+    dateTimeAdded: "2024-06-01T09:30:00Z",
+    name: "Acme Corp",
+    email: "contact@acmecorp.com",
+  },
+  {
+    status: "Inactive",
+    priority: "Low",
+    comments: [
+      {
+        comment: "No response to initial outreach.",
+        user: "60d0fe4f5311236168a109cc",
+        dateTimeAdded: "2024-05-20T08:00:00Z",
+      },
+    ],
+    stage: "Lost Lead",
+    collaborators: ["Alice Johnson"],
+    leadReminder: "2024-06-05T09:00:00Z",
+    address: "456 Elm St, Springfield, USA",
+    source: "Website form",
+    adSource: {
+      adCampaignName: "Spring Discount",
+    },
+    phone: "555-9876",
+    secondaryNumber: "555-4321",
+    branchCode: "BR002",
+    dateTimeAdded: "2024-05-15T08:30:00Z",
+    name: "Globex Inc",
+    email: "info@globex.com",
+  },
+  {
+    status: "Active",
+    priority: "Medium",
+    comments: [
+      {
+        comment: "Scheduled meeting with prospect.",
+        user: "60d0fe4f5311236168a109cd",
+        dateTimeAdded: "2024-06-03T11:00:00Z",
+      },
+    ],
+    stage: "Opportunity",
+    collaborators: ["Michael Brown", "Sara White"],
+    leadReminder: "2024-06-12T09:00:00Z",
+    address: "789 Oak St, Springfield, USA",
+    source: "Inbound Call",
+    adSource: {
+      adCampaignName: "Winter Promo",
+    },
+    phone: "555-2468",
+    secondaryNumber: "555-1357",
+    branchCode: "BR003",
+    dateTimeAdded: "2024-06-01T10:30:00Z",
+    name: "Initech",
+    email: "support@initech.com",
+  },
+];
