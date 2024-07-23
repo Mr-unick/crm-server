@@ -45,4 +45,4 @@ const leadSchema = new mongoose.Schema({
 
 const Leads = mongoose.model("Leads", leadSchema);
 
-module.exports = {Leads,commentSchema};
+module.exports = { Leads,commentSchema};
