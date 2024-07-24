@@ -35,8 +35,6 @@ const UpdateLead = async (req, res) => {
         );
       }
 
-    
-
       // Send email to old lead's email address
       SendMail(oldLead.email);
     }
@@ -48,7 +46,7 @@ const UpdateLead = async (req, res) => {
     });
 
 
-    res.status(200).send(`Data updated for lead ID ${updatedLead}`);
+    res.status(200).send({status:200});
   } catch (error) {
     console.error("Error updating lead:", error);
     res.status(500).send(error.message);
