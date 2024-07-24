@@ -1,4 +1,5 @@
-const Leads = require("../../db/leadSchema");
+
+const { Leads } = require("../../db/leadSchema");
 const { SendMail } = require("../integration/sendmail");
 
 const UpdateLead = async (req, res) => {
