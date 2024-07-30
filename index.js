@@ -43,7 +43,7 @@ app.use(
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(process.cwd(), "./uploads")); // Ensure path.join() returns a string
+    cb(null, path.join(process.cwd(), "/tmp")); // Ensure path.join() returns a string
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname); // Use the original file name or generate a unique name
