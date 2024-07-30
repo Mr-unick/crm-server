@@ -6,11 +6,14 @@ require("dotenv").config();
 
 
 const SignInCollabrator = async (req, res) => {
+
   const { email, password } = req.body;
 
   try {
+
     // Check if the user exists
     const collaborator = await Collaborators.findOne({ email });
+
     if (!collaborator) {
       return res.status(400).send({
         message: "User Not Found",
@@ -19,6 +22,7 @@ const SignInCollabrator = async (req, res) => {
 
     // Compare the provided password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, collaborator.password);
+
     if (!isMatch) {
       return res.status(400).send({
         message: "Invalid  password",
@@ -33,7 +37,7 @@ const SignInCollabrator = async (req, res) => {
         level: collaborator.level,
       },
     process.env.JWT_SECRET, //  secret key
-      { expiresIn: "1h" }
+      { expiresIn: "48h" }
     );
 
     res.status(200).send({

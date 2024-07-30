@@ -6,6 +6,7 @@ const UpdateLead = async (req, res) => {
   try {
     const leadId = req.params.id;
     const updatedData = req.body;
+
  let headCollaborator = null;
     // Fetch the old lead data
     const oldLead = await Leads.findById(leadId);
@@ -30,9 +31,7 @@ const UpdateLead = async (req, res) => {
           (collaborator) => collaborator.level === "Interior Designer"
         );
       } else if (updatedData.stage === "re-prospect") {
-        headCollaborator = oldLead.collaborators.find(
-          (collaborator) => collaborator.level === "Operation Manager"
-        );
+        headCollaborator = oldLead.collaborators.find((collaborator) => collaborator.level === "Operation Manager");
       }
 
       // Send email to old lead's email address

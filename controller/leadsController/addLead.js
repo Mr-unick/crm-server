@@ -80,7 +80,7 @@ const AddLead = async (req, res) => {
    try {
      
     await Leads.insertMany(data);
-       res.status(200).send({status:200});
+    res.status(200).send({status:200});
    } catch (e) {
      console.error(e); // Log the error for debugging purposes
      res.status(500).send({
