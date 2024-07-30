@@ -42,13 +42,18 @@ app.use(
 );
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(process.cwd(), "/tmp")); // Ensure path.join() returns a string
+  destination: (req, file, cb) => {
+    // This path is ignored on Vercel
+    cb(null, path.join(process.cwd(), './uploads'));
   },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original file name or generate a unique name
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const extension = path.extname(file.originalname);
+    cb(null, `${file.fieldname}-${uniqueSuffix}${extension}`); 
+
   },
 });
+
 const upload = multer({
   storage: storage,
   limits: { fileSize: 50 * 1024 * 1024 },
