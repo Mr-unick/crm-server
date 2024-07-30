@@ -41,23 +41,29 @@ app.use(
   })
 );
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // This path is ignored on Vercel
-    cb(null, path.join(process.cwd(), './uploads'));
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const extension = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${extension}`); 
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     // This path is ignored on Vercel
+//     cb(null, path.join(process.cwd(), './uploads'));
+//   },
+//   filename: (req, file, cb) => {
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+//     const extension = path.extname(file.originalname);
+//     cb(null, `${file.fieldname}-${uniqueSuffix}${extension}`); 
 
-  },
-});
+//   },
+// });
 
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 50 * 1024 * 1024 },
-});
+
+
+// const upload = multer({
+//   storage: storage,
+//   limits: { fileSize: 50 * 1024 * 1024 },
+// });
+
+const storage = multer.memoryStorage();
+
+const upload = multer({storage:storage})
 
 
 
