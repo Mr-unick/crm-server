@@ -5,8 +5,10 @@ const cloudinary = require("../../db/cloudnary");
 const { Leads } = require("../../db/leadSchema");
 const fs = require("fs");
 const path = require("path");
+const streamifier = require('streamifier'); // For converting buffer to stream
 
 const AddComment = async (req, res) => {
+
   
   try {
     const { comment, collaborator } = req.body;
@@ -16,51 +18,72 @@ const AddComment = async (req, res) => {
     let imageUrl = "none";
     let pdfUrl = "none";
 
-  
-    
     // Upload image if provided
-    if (image) {
-      await cloudinary.uploader.upload(image[0].path, (error, imageResult) => {
-        if (error) {
-          console.error("Error uploading image:", error);
-          return res.status(500).send({ message: "Error uploading image" });
-        }
-        imageUrl = imageResult.secure_url;
+    // if (image) {
+    //   const stream = streamifier.createReadStream(image[0].buffer);
+
+    //   await cloudinary.uploader.upload(image[0], (error, imageResult) => {
+    //     if (error) {
+    //       console.error("Error uploading image:", error);
+    //       return res.status(500).send({ message: "Error uploading image" });
+    //     }
+    //     imageUrl = imageResult.secure_url;
      
-        fs.unlink(image[0].path, (error) => {
-          if (error) {
-            console.error("Error deleting image:", error);
-            return res.status(500).json({ message: "Error deleting image" });
-          }
-        
-        });
 
-      });
-    }
+    //   });
+    // }
+   if(image){
+    const stream = streamifier.createReadStream(image[0].buffer);
 
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'uploads', resource_type: 'image' }, // Adjust folder name and resource_type if needed
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+
+      stream.pipe(uploadStream);
+    });
     
+ imageUrl = result.secure_url;
+   }
+
+ if(pdf){
+  const stream2 = streamifier.createReadStream(pdf[0].buffer);
+
+    const result2 = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'uploads', resource_type: 'image' }, // Adjust folder name and resource_type if needed
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+
+      stream2.pipe(uploadStream);
+    });
+    
+ pdfUrlUrl = result2.secure_url;
+ }
 
     // Upload PDF if provided
-    if (pdf) {
-      await cloudinary.uploader.upload(pdf[0].path, (error, pdfResult) => {
-        if (error) {
-          console.error("Error uploading pdf:", error);
-          return res.status(500).send({ message: "Error uploading pdf" });
-        }
-        pdfUrl = pdfResult.secure_url;
-       
-        fs.unlink(pdf[0].path, (error) => {
-          if (error) {
-            console.error("Error deleting image:", error);
-            return res.status(500).json({ message: "Error deleting image" });
-          }
-        });
-      });
-    }
+    // if (pdf) {
+    //   await cloudinary.uploader.upload(pdf[0], (error, pdfResult) => {
+    //     if (error) {
+    //       console.error("Error uploading pdf:", error);
+    //       return res.status(500).send({ message: "Error uploading pdf" });
+    //     }
+    //     pdfUrl = pdfResult.secure_url;
+      
+    //   });
+    // }
 
     // Find the lead by ID
     let lead = await Leads.findById(id);
 
+    console.log( imageUrl,id);
     // Add the new comment and files to the lead
     lead.comments.push({
       comment: comment,

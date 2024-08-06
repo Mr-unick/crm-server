@@ -7,43 +7,11 @@ const UpdateLead = async (req, res) => {
     const leadId = req.params.id;
     const updatedData = req.body;
 
- let headCollaborator = null;
-    // Fetch the old lead data
-    const oldLead = await Leads.findById(leadId);
-
-    // Check if the stage is changing
-    if (oldLead.stage !== updatedData.stage) {
-     
-
-      // Determine the head collaborator based on the new stage
-      if (
-        updatedData.stage === "prospect" ||
-        updatedData.stage === "opportunity"
-      ) {
-        headCollaborator = oldLead.collaborators.find(
-          (collaborator) => collaborator.level === "Sales Professional"
-        );
-      } else if (
-        updatedData.stage === "qualified" ||
-        updatedData.stage === "nurture"
-      ) {
-        headCollaborator = oldLead.collaborators.find(
-          (collaborator) => collaborator.level === "Interior Designer"
-        );
-      } else if (updatedData.stage === "re-prospect") {
-        headCollaborator = oldLead.collaborators.find((collaborator) => collaborator.level === "Operation Manager");
-      }
-
-      // Send email to old lead's email address
-      SendMail(oldLead.email);
-    }
 
     // Update the lead with the new data
-    const updatedLead = await Leads.findByIdAndUpdate(leadId, {
-      ...updatedData,
-      Headcollaborator: headCollaborator,
-    });
+    await Leads.findByIdAndUpdate(leadId, {...updatedData});
 
+console.log(updatedData,'data');
 
     res.status(200).send({status:200});
   } catch (error) {
