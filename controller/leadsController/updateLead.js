@@ -1,4 +1,5 @@
 
+const { collaboratorSchema, Collaborators } = require("../../db/colabratorSchema");
 const { Leads } = require("../../db/leadSchema");
 const { SendMail } = require("../integration/sendmail");
 
@@ -7,11 +8,34 @@ const UpdateLead = async (req, res) => {
     const leadId = req.params.id;
     const updatedData = req.body;
 
+    let collabrator;
+  if(req.body.collaborators){
 
+    collabrator =await Collaborators.findById(updatedData.collaborators)
+
+    await Leads.findByIdAndUpdate(
+      leadId,
+      { $push: { collaborators: collabrator } },
+      { new: true, useFindAndModify: false }
+    );
+}else if(req.body.Headcollaborator){
+
+  let newHeadcollabrator =await Collaborators.findById(updatedData.Headcollaborator)
+
+  await Leads.findByIdAndUpdate(
+    leadId,{Headcollaborator:newHeadcollabrator}
+  );
+}else{
+  await Leads.findByIdAndUpdate(
+    leadId,
+    {...updatedData}
+  );
+}
     // Update the lead with the new data
-    await Leads.findByIdAndUpdate(leadId, {...updatedData});
+  
+ 
 
-console.log(updatedData,'data');
+
 
     res.status(200).send({status:200});
   } catch (error) {
