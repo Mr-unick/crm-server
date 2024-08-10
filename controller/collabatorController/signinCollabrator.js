@@ -44,6 +44,7 @@ const SignInCollabrator = async (req, res) => {
       status: 200,
       message: "Sign in successful",
       token: token,
+      id: collaborator._id,
       name: collaborator.name,
       email: collaborator.email,
       level: collaborator.level, // Send the token to the client
