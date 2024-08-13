@@ -29,6 +29,7 @@ const port = 4000;
 const bodyParser = require("body-parser");
 const path = require("path");
 const { Wpmessage } = require("./controller/integration/whatsapp2");
+const { GetLeadsWithTodayRemainder } = require("./controller/leadsController/getRemainderLeads");
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -75,6 +76,7 @@ app.get("/", (req, res) => {
 
 // leads Apis
 app.get("/leads/allleads", verifyToken, GetLeads);
+app.get("/leads/remainderleads/:collaboratorId",verifyToken, GetLeadsWithTodayRemainder);
 app.get("/leads/:collaboratorId", verifyToken,GetAssignedLeads);
 app.post("/leads/addleads", verifyToken, AddLead);
 app.delete("/leads/delete/:id", verifyToken, DeleteLead);

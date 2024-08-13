@@ -5,9 +5,7 @@ const GetAssignedLeads = async (req, res) => {
   try {
 
     const collaboratorId =req.params.collaboratorId 
-      console.log(collaboratorId,'from controller')
-
-   
+    
     const data = await Leads.find({
       collaborators: { $elemMatch: { _id: collaboratorId } },
     });
