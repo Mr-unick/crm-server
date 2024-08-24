@@ -74,20 +74,29 @@ const dummyData = [
 
 // wzidoaF9Q7TsuzLR
 const AddLead = async (req, res) => {
+  const data = req.body;
 
-   const data = req.body;
-
-   try {
-     
-    await Leads.insertMany(data);
-    res.status(200).send({status:200});
-   } catch (e) {
-     console.error(e); // Log the error for debugging purposes
-     res.status(500).send({
-       message: "Failed to add lead",
-       error: e.message, // Provide more context about the error
-     });
-   }
+  try {
+    if (Array.isArray(data)) {
+    
+      await Leads.insertMany(data);
+    } else if (typeof data === 'object' && data !== null) {
+      
+      await Leads.create(data);
+    } else {
+      
+      return res.status(400).send({ status: 400, message: "Invalid input data" });
+    }
+    
+    res.status(200).send({ status: 200 });
+  } catch (e) {
+    console.error(e); // Log the error for debugging purposes
+    res.status(500).send({
+      message: "Failed to add lead",
+      error: e.message, // Provide more context about the error
+    });
+  }
 };
+
 
 module.exports = { AddLead};
