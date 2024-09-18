@@ -11,25 +11,26 @@ const { DeleteCollabrator } = require("./controller/collabatorController/deleteC
 const { UpdateCollabrator } = require("./controller/collabatorController/updateCollabrator");
 const { WhatsappMessage } = require("./controller/integration/whatsapp");
 const { SendMail } = require("./controller/integration/sendmail");
-const cors=require('cors');
+const cors = require("cors");
 const verifyToken = require("./middlewares/TokenVerification");
 const AddAdmin = require("./controller/admin/addadmin");
 const SignInAdmin = require("./controller/admin/adminSigin");
 const { GetAssignedLeads } = require("./controller/leadsController/getassignedleads");
 const multer = require("multer");
 const { AddComment } = require("./controller/leadsController/addComment");
-
-
-connectDB()
-
-
-
-const app = express();
-const port = 4000;
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
 const bodyParser = require("body-parser");
 const path = require("path");
 const { Wpmessage } = require("./controller/integration/whatsapp2");
 const { GetLeadsWithTodayRemainder } = require("./controller/leadsController/getRemainderLeads");
+
+connectDB();
+
+const app = express();
+const port = 4000;
+const httpsPort = 443;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -42,64 +43,46 @@ app.use(
   })
 );
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     // This path is ignored on Vercel
-//     cb(null, path.join(process.cwd(), './uploads'));
-//   },
-//   filename: (req, file, cb) => {
-//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-//     const extension = path.extname(file.originalname);
-//     cb(null, `${file.fieldname}-${uniqueSuffix}${extension}`); 
-
-//   },
-// });
-
-
-
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: 50 * 1024 * 1024 },
-// });
-
+// Setup multer for file uploads
 const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-const upload = multer({storage:storage})
-
-
-
-
+// Default route
 app.get("/", (req, res) => {
-  res.send("Hello,updated1 World!");
+  res.send("Hello, updated World!");
 });
 
-
-// leads Apis
+// Leads APIs
 app.get("/leads/allleads", verifyToken, GetLeads);
-app.get("/leads/remainderleads/:collaboratorId",verifyToken, GetLeadsWithTodayRemainder);
-app.get("/leads/:collaboratorId", verifyToken,GetAssignedLeads);
+app.get("/leads/remainderleads/:collaboratorId", verifyToken, GetLeadsWithTodayRemainder);
+app.get("/leads/:collaboratorId", verifyToken, GetAssignedLeads);
 app.post("/leads/addleads", verifyToken, AddLead);
 app.delete("/leads/delete/:id", verifyToken, DeleteLead);
-app.post("/leads/update/:id",verifyToken, UpdateLead);
+app.post("/leads/update/:id", verifyToken, UpdateLead);
+app.post("/leads/addcoment/:id", upload.fields([{ name: 'image', maxCount: 1 }, { name: 'pdf', maxCount: 1 }]), AddComment);
 
-app.post("/leads/addcoment/:id",upload.fields([{ name: 'image', maxCount: 1 },{ name: 'pdf', maxCount: 1 },],), AddComment)
-
-// collabrator Apis
+// Collaborator APIs
 app.post("/collabrators/addcollabrator", verifyToken, AddCollabrator);
 app.post("/collabrators/signin", SignInCollabrator);
 app.get("/collabrators/getcollabrators", verifyToken, GetCollabrators);
 app.delete("/collabrators/delete/:id", verifyToken, DeleteCollabrator);
 app.post("/collabrators/update/:id", verifyToken, UpdateCollabrator);
 
-// Admin Apis 
-
-// app.post("/admin/addadmin", AddAdmin);  // to add admin commented for security purpose
+// Admin APIs
+// app.post("/admin/addadmin", AddAdmin);  // Disabled for security
 app.post("/admin/signin", SignInAdmin);
 
-// whatsapp integratio Apis
-app.post('/sendmessage',Wpmessage)
+// WhatsApp Integration API
+app.post('/sendmessage', Wpmessage);
 
-// Start the server and listen on the specified port
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+// Setup SSL for HTTPS (ensure you have the correct file paths for key and cert)
+
+// Create HTTP server
+http.createServer(app).listen(port, () => {
+ console.log(`HTTP server is running on http://localhost:${port}`);
+});
+
+// Create HTTPS server
+https.createServer( app).listen(443, () => {
+  console.log(`HTTPS server is running on https://localhost:${4000000}`);
 });
