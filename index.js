@@ -83,6 +83,6 @@ http.createServer(app).listen(port, () => {
 });
 
 // Create HTTPS server
-https.createServer( app).listen(443, () => {
+https.createServer( app).listen(80, () => {
   console.log(`HTTPS server is running on https://localhost:${4000000}`);
 });
