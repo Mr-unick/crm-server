@@ -37,7 +37,7 @@ const leadSchema = new mongoose.Schema({
   },
   phone: { type: String, default: "none" },
   secondaryNumber: { type: String, default: "none" },
-  branchCode: { type: String, default: "b1" },
+  branchCode: { type: String, default: "LC32" },
   dateTimeAdded: { type: Date, default: Date.now },
   name: { type: String },
   email: { type: String },
