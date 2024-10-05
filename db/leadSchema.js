@@ -29,7 +29,7 @@ const leadSchema = new mongoose.Schema({
   address: { type: String },
   source: {
     type: String,
-    enum: ["Ads", "Website form", "Inbound Call", "Client Referral", "manual"],
+    enum: ["Ads", "Website form", "Inbound Call", "Client Referral", "Manual","Walk In"],
     default: "manual",
   },
   adSource: {
