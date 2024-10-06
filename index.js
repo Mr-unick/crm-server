@@ -25,6 +25,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const { Wpmessage } = require("./controller/integration/whatsapp2");
 const { GetLeadsWithTodayRemainder } = require("./controller/leadsController/getRemainderLeads");
+const { CheckInactiveLeads } = require("./controller/leadsController/checkInActiveLead");
 
 connectDB();
 
@@ -74,6 +75,13 @@ app.post("/admin/signin", SignInAdmin);
 
 // WhatsApp Integration API
 app.post('/sendmessage', Wpmessage);
+
+const twentyFourHours = 24 * 60 * 60 * 1000;
+
+setInterval(() => {
+CheckInactiveLeads();
+  
+},twentyFourHours );
 
 // Setup SSL for HTTPS (ensure you have the correct file paths for key and cert)
 
