@@ -12,14 +12,11 @@ const AddComment = async (req, res) => {
   
   try {
     const { comment, collaborator } = req.body;
-    // const { image, pdf } = req.files;
-     let image = null;
+    // const { image, pdf } = req?.files;
+    let image = null;
     let pdf = null;
 
     const { id } = req.params ;
-  
-    let imageUrl = "none";
-    let pdfUrl = "none";
   
     let imageUrl = "none";
     let pdfUrl = "none";
@@ -39,6 +36,7 @@ const AddComment = async (req, res) => {
     //   });
     // }
    if(image){
+
     const stream = streamifier.createReadStream(image[0].buffer);
 
     const result = await new Promise((resolve, reject) => {
