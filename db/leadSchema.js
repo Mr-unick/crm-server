@@ -41,6 +41,7 @@ const leadSchema = new mongoose.Schema({
   dateTimeAdded: { type: Date, default: Date.now },
   name: { type: String },
   email: { type: String },
+  requirement:{ type: String },
 });
 
 const Leads = mongoose.model("Leads", leadSchema);
