@@ -18,13 +18,24 @@ const UpdateLead = async (req, res) => {
       { $push: { collaborators: collabrator } },
       { new: true, useFindAndModify: false }
     );
+
 }else if(req.body.Headcollaborator){
 
   let newHeadcollabrator =await Collaborators.findById(updatedData.Headcollaborator)
 
   await Leads.findByIdAndUpdate(
     leadId,{Headcollaborator:newHeadcollabrator}
+
   );
+}else if(req.body.deletecollaborator){
+  await Leads.findByIdAndUpdate(
+    leadId,
+    { $pull: { collaborators: { _id: req.body.deletecollaborator } } },
+    { new: true, useFindAndModify: false }
+  );
+
+  res.status(200).send({status:200,msg:req.body.deletecollaborator});
+  
 }else{
   await Leads.findByIdAndUpdate(
     leadId,
@@ -32,9 +43,6 @@ const UpdateLead = async (req, res) => {
   );
 }
     // Update the lead with the new data
-  
- 
-
 
 
     res.status(200).send({status:200});
