@@ -67,10 +67,12 @@ async function getFacebookLeads() {
         return cleaned; // Return cleaned number without the country code
     }
     
+
     try {
-        await Promise.all(newdata.map(async lead => {
+        let newLeadsData = extractAllLeadsInfo(newdata.data);
+        await Promise.all(newLeadsData?.map(async lead => {
             // Normalize the phone number for both checks
-            const normalizedWithCountryCode = lead.phone_number.replace(/\D/g, '');
+            const normalizedWithCountryCode = lead?.phone_number?.replace(/\D/g, '');
             const normalizedWithoutCountryCode = normalizePhoneNumber(lead.phone_number);
     
             // Check if the lead already exists (either format)
@@ -82,6 +84,7 @@ async function getFacebookLeads() {
             });
     
             if (exists) {
+                console.log("alredy exists")
                 return; // If the lead exists, skip to the next one
             } else {
                 // Create a new lead object
