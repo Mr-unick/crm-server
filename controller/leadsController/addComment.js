@@ -12,14 +12,14 @@ const AddComment = async (req, res) => {
   
   try {
     const { comment, collaborator } = req.body;
-    // const { image, pdf } = req?.files;
+     const { image, pdf } = req?.files;
     let image = null;
     let pdf = null;
 
     const { id } = req.params ;
   
-    let imageUrl = "none";
-    let pdfUrl = "none";
+    // let imageUrl = "none";
+    // let pdfUrl = "none";
 
     // Upload image if provided
     // if (image) {
