@@ -27,11 +27,6 @@ const UpdateLead = async (req, res) => {
     leadId,{Headcollaborator:newHeadcollabrator}
 
   );
-     await Leads.findByIdAndUpdate(
-      leadId,
-      { $push: { collaborators: newHeadcollabrator } },
-      { new: true, useFindAndModify: false }
-    );
 }else if(req.body.deletecollaborator){
   await Leads.findByIdAndUpdate(
     leadId,
@@ -49,9 +44,9 @@ const UpdateLead = async (req, res) => {
 }
     // Update the lead with the new data
 
-}
- //  let newupdatedlead =  await Leads.findById(leadId);
-    res.status(200).send({status:200});
+let lead = Leads.findById(leadId)
+
+    res.status(200).send({status:200 ,lead:lead});
   } catch (error) {
     console.error("Error updating lead:", error);
     res.status(500).send(error.message);
