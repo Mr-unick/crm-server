@@ -27,6 +27,11 @@ const UpdateLead = async (req, res) => {
     leadId,{Headcollaborator:newHeadcollabrator}
 
   );
+     await Leads.findByIdAndUpdate(
+      leadId,
+      { $push: { collaborators: newHeadcollabrator } },
+      { new: true, useFindAndModify: false }
+    );
 }else if(req.body.deletecollaborator){
   await Leads.findByIdAndUpdate(
     leadId,
