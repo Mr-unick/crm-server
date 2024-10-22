@@ -1,4 +1,6 @@
 const { Leads } = require("../../db/leadSchema");
+const { getFacebookLeads } = require("../integration/facebookleads");
+const { CheckInactiveLeads } = require("./checkInActiveLead");
 
 
 
@@ -11,7 +13,8 @@ console.log(isadmin,id);
   try {
    
     if(isadmin){
-      console.log(false);
+    getFacebookLeads()
+    CheckInactiveLeads()
     const leads = await Leads.find();
     res.status(200).send(leads);
     }else{
