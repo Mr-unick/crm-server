@@ -47,7 +47,11 @@ const UpdateLead = async (req, res) => {
 
     // Update the lead with the new data
 
-    res.status(200).send({status:200,lead:UpdateLead});
+      let newleadtosend = await Leads.findById(leadId);
+
+    // Update the lead with the new data
+
+    res.status(200).send({status:200,lead:newleadtosend});
   } catch (error) {
     console.error("Error updating lead:", error);
     res.status(500).send(error.message);
