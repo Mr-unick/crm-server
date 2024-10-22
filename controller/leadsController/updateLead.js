@@ -7,6 +7,7 @@ const UpdateLead = async (req, res) => {
   try {
     const leadId = req.params.id;
     const updatedData = req.body;
+    let newlead;
 
     let collabrator;
   if(req.body.collaborators){
@@ -36,17 +37,17 @@ const UpdateLead = async (req, res) => {
 
   res.status(200).send({status:200,msg:req.body.deletecollaborator});
   
-}else{
-  await Leads.findByIdAndUpdate(
+  
+}
+
+ let UpdateLead= await Leads.findByIdAndUpdate(
     leadId,
     {...updatedData}
   );
-}
+
     // Update the lead with the new data
 
-//let lead = Leads.findById(leadId)
-
-    res.status(200).send({status:200});
+    res.status(200).send({status:200,lead:UpdateLead});
   } catch (error) {
     console.error("Error updating lead:", error);
     res.status(500).send(error.message);
