@@ -15,14 +15,15 @@ console.log(isadmin,id);
     if(isadmin){
     getFacebookLeads()
     CheckInactiveLeads()
-    const leads = await Leads.find();
+    const leads = await Leads.find().sort({ dateTimeAdded: -1 });
+
     res.status(200).send(leads);
     }else{
     const leads = await Leads.find({
       collaborators: {
         $elemMatch: { _id: id },
       },
-    });
+    }).sort({ dateTimeAdded: -1 });
   
     res.status(200).send(leads);}
   } catch (e) {
