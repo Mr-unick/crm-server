@@ -32,7 +32,7 @@ const SignInAdmin = async (req, res) => {
         level: admin.level,
       },
       process.env.JWT_SECRET, //  secret key
-      { expiresIn: "48h" }
+      { expiresIn: "24h" }
     );
 
     res.status(200).send({

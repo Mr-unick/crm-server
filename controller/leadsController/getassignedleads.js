@@ -5,15 +5,16 @@ const GetAssignedLeads = async (req, res) => {
   try {
 
     const collaboratorId =req.params.collaboratorId 
-    
-    const data = await Leads.find({
-      collaborators: { $elemMatch: { _id: collaboratorId } },
+    const leads = await Leads.find({
+      $or: [
+        { collaborators: { $elemMatch: { _id: collaboratorId } } },
+        { Headcollaborator: {_id:collaboratorId} } 
+      ]
     });
 
-    console.log(data,'hello data');
-    
+// console.log(leads);
 
-    res.status(200).send(data);
+    res.status(200).send(leads);
   } catch (e) {
     res.status(500).send(e);
   }
