@@ -48,7 +48,8 @@ const AddComment = async (req, res) => {
 
     // Find the lead by ID
     const lead = await Leads.findById(id);
-       await Leads.findByIdAndUpdate(id,{status:'active'});
+     await Leads.findByIdAndUpdate(id, { status: 'active' }, { new: true, runValidators: true });
+
     if (!lead) {
       return res.status(404).json({ message: "Lead not found" });
     }
