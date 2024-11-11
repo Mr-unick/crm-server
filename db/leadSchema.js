@@ -20,7 +20,7 @@ const leadSchema = new mongoose.Schema({
   comments: { type: [commentSchema], default: [] }, // Default to an empty array
   stage: {
     type: String,
-    enum: ["prospect", "qualified", "opportunity", "nurture", "re-prospect"],
+    enum: ["prospect", "qualified", "opportunity", "nurture", "re-prospect","lost"],
     default: "prospect",
   },
   collaborators: { type: [collaboratorSchema], default: [] }, // Default to an empty array
