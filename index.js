@@ -71,7 +71,7 @@ app.delete("/collabrators/delete/:id", verifyToken, DeleteCollabrator);
 app.post("/collabrators/update/:id", verifyToken, UpdateCollabrator);
 
 // Admin APIs
-// app.post("/admin/addadmin", AddAdmin);  // Disabled for security
+ app.post("/admin/addadmin", AddAdmin);  // Disabled for security
 app.post("/admin/signin", SignInAdmin);
 
 // WhatsApp Integration API
