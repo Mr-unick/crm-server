@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 });
 
 // Leads APIs
-app.get("/leads/allleads", GetLeads);
+app.get("/leads/allleads", verifyToken, GetLeads);
 app.get("/leads/remainderleads/:collaboratorId", verifyToken, GetLeadsWithTodayRemainder);
 app.get("/leads/:collaboratorId", verifyToken, GetAssignedLeads);
 app.post("/leads/addleads", verifyToken, AddLead);
