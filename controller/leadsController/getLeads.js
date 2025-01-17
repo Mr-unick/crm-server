@@ -13,8 +13,8 @@ console.log(isadmin,id);
   try {
    
     if(isadmin){
-    getFacebookLeads()
-    CheckInactiveLeads()
+//    getFacebookLeads()
+//    CheckInactiveLeads()
     const leads = await Leads.find().sort({ dateTimeAdded: -1 });
 
     res.status(200).send(leads);
