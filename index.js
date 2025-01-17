@@ -35,7 +35,14 @@ const port = 4000;
 const httpsPort = 443;
 
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
+const allowedOrigins = ['https://client-tracker-theta.vercel.app'];
+
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true 
+}));
 app.use(express.json({ limit: "50mb" }));
 app.use(
   bodyParser.urlencoded({
