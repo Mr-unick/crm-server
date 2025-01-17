@@ -65,7 +65,7 @@ app.get("/", (req, res) => {
 app.get("/leads/allleads", GetLeads);
 app.get("/leads/remainderleads/:collaboratorId", verifyToken, GetLeadsWithTodayRemainder);
 app.get("/leads/:collaboratorId", verifyToken, GetAssignedLeads);
-app.post("/leads/addleads", verifyToken, AddLead);
+app.post("/leads/addleads", AddLead);
 app.delete("/leads/delete/:id", verifyToken, DeleteLead);
 app.post("/leads/update/:id", verifyToken, UpdateLead);
 app.post("/leads/addcoment/:id", upload.fields([{ name: 'image', maxCount: 1 }, { name: 'pdf', maxCount: 1 }]), AddComment);
